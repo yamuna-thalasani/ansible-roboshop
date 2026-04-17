@@ -41,10 +41,10 @@
       type: A
       ttl: 1
       value: "{{ item.instances[0].private_ip_address }}"
-      wait: false
-      overwrite: true
+      wait: true
+      # overwrite: true
     loop: "{{ ec2_output.results }}" # list
-    when: action == "create"
+    # when: action == "create"
 
   - name: create r53 record for frontend
     amazon.aws.route53:
@@ -54,12 +54,12 @@
       type: A
       ttl: 1
       value: "{{ item.instances[0].public_ip_address }}"
-      wait: false
-      overwrite: true
+      wait: true
+      # overwrite: true
     loop: "{{ ec2_output.results }}"
     when:  # and
     - item.item == "frontend"
-    - action == "create"
+    # - action == "create"
 
   # ### DESTROY ###
   # - name: delete r53 records for frontend
